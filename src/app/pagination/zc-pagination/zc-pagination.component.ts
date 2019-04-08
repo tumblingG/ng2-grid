@@ -36,7 +36,7 @@ export class ZcPaginationComponent implements OnInit, OnDestroy, OnChanges {
   @Input() zcPageSize = 10;
   @Input() zcPageIndex = 1;
 
-  constructor() { }
+  constructor(private cdr: ChangeDetectorRef) { }
 
   ngOnInit() {
   }
@@ -45,6 +45,9 @@ export class ZcPaginationComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
+    if (changes.zcTotal || changes.zcPageSize || changes.zcPageIndex) {
+      this.buildIndexes();
+    }
   }
 
   get lastIndex(): number {
@@ -64,4 +67,56 @@ export class ZcPaginationComponent implements OnInit, OnDestroy, OnChanges {
     this.zcPageSize, this.zcTotal)];
   }
 
+  buildIndexes(): void {
+    const pages: number[] = [];
+    if (this.lastIndex <= 9) {
+      for (let i = 2; i <= this.lastIndex-1; i++) {
+        pages.push(i);
+      }
+    } else {
+      const current = +this.zcPageIndex;
+      let left = Math.max(2, current - 2);
+      let right = Math.min(current + 2, this.lastIndex - 1);
+      if (current -1 <= 2) {
+        right = 5;
+      }
+      if (this.lastIndex - current <= 2) {
+        left = this.lastIndex - 4;
+      }
+      for (let i = left; i <= right; i++) {
+        pages.push(i);
+      }
+    }
+    this.pages = pages;
+    this.cdr.markForCheck();
+  }
+
+  validatePageIndex(value: number): number {
+    if (value > this.lastIndex) {
+      return this.lastIndex;
+    } else if (value < this.firstIndex) {
+      return this.firstIndex;
+    } else {
+      return value;
+    }
+  }
+
+  updatePageIndexValue(page: number): void {
+    this.zcPageSize = page;
+    this.zcPageIndexChange.emit(this.zcPageIndex);
+    this.buildIndexes();
+  }
+
+  isPageIndexValid(value: number): boolean {
+    return this.validatePageIndex(value) === value;
+  }
+
+  onPageSizeChange($event: number): void {
+    this.zcPageIndex = $event;
+    this.zcPageIndexChange.emit($event);
+    this.buildIndexes();
+    if (this.zcPageIndex > this.lastIndex) {
+      this.updatePageIndexValue(this.lastIndex);
+    }
+  }
 }
