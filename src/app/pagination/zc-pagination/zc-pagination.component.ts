@@ -16,6 +16,8 @@ import {
 
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { isInteger } from "../../../share/until/check";
+import { toNumber, InputBoolean, InputNumber } from "../../../share/until/covert";
 
 @Component({
   selector: 'zc-pagination',
@@ -32,23 +34,13 @@ export class ZcPaginationComponent implements OnInit, OnDestroy, OnChanges {
   private $destory = new Subject<void>();
   @Output() readonly zcPageSizeChange: EventEmitter<number> = new EventEmitter();
   @Output() readonly zcPageIndexChange: EventEmitter<number> = new EventEmitter();
-  @Input() zcTotal = 0;
-  @Input() zcPageSize = 10;
-  @Input() zcPageIndex = 1;
-
-  constructor(private cdr: ChangeDetectorRef) { }
-
-  ngOnInit() {
-  }
-
-  ngOnDestroy(): void {
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes.zcTotal || changes.zcPageSize || changes.zcPageIndex) {
-      this.buildIndexes();
-    }
-  }
+  @Input() @ViewChild('renderItemTemplate') zcItemRender: TemplateRef<{
+    $implicit: 'page' | 'prev' | 'next';
+    page: number
+  }>;
+  @Input() @InputNumber() zcTotal = 0;
+  @Input() @InputNumber() zcPageSize = 10;
+  @Input() @InputNumber() zcPageIndex = 1;
 
   get lastIndex(): number {
     return Math.ceil(this.zcTotal / this.zcPageSize);
@@ -102,7 +94,7 @@ export class ZcPaginationComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   updatePageIndexValue(page: number): void {
-    this.zcPageSize = page;
+    this.zcPageIndex = page;
     this.zcPageIndexChange.emit(this.zcPageIndex);
     this.buildIndexes();
   }
@@ -117,6 +109,20 @@ export class ZcPaginationComponent implements OnInit, OnDestroy, OnChanges {
     this.buildIndexes();
     if (this.zcPageIndex > this.lastIndex) {
       this.updatePageIndexValue(this.lastIndex);
+    }
+  }
+
+  constructor(private cdr: ChangeDetectorRef) { }
+
+  ngOnInit() {
+  }
+
+  ngOnDestroy(): void {
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes.zcTotal || changes.zcPageSize || changes.zcPageIndex) {
+      this.buildIndexes();
     }
   }
 }
