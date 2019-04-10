@@ -1,0 +1,7 @@
+<input
+    type="checkbox"
+    *ngIf="slSHowCheckbox"
+    [disabled]="slDisabled"
+    [(ngModel)] = 'slChecked'
+>
+<ng-content></ng-content>

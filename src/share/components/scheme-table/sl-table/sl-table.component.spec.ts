@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ZcTdComponent } from './zc-td.component';
+import { SlTableComponent } from './sl-table.component';
 
-describe('ZcTdComponent', () => {
-  let component: ZcTdComponent;
-  let fixture: ComponentFixture<ZcTdComponent>;
+describe('SlTableComponent', () => {
+  let component: SlTableComponent;
+  let fixture: ComponentFixture<SlTableComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ZcTdComponent ]
+      declarations: [ SlTableComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ZcTdComponent);
+    fixture = TestBed.createComponent(SlTableComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

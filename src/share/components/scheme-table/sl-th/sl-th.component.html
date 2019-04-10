@@ -1,0 +1,7 @@
+<ng-template #checkboxTemplate>
+  <input type="checkbox" [(ngModel)]="slChecked" (ngModelChange)="slCheckedChange.emit($event)">
+</ng-template>
+<ng-container *ngIf="slShowCheckbox">
+  <ng-template [ngTemplateOutlet]="checkboxTemplate"></ng-template>
+</ng-container>
+<ng-content></ng-content>
