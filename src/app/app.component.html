@@ -1,1 +1,10 @@
-<zc-pagination [zcTotal]="total"  zcPageSize="2"></zc-pagination>
+<zc-pagination
+        [zcTotal]="total"
+        [zcPageSize]="pageSize"
+        [(zcPageIndex)]="pageIndex"
+        (zcPageIndexChange)="modeChange($event)">
+</zc-pagination>
+
+<button (click)="addTotal()">addTotal</button>
+<button (click)="addIndex()">addIndex</button>
+{{pageIndex}}
