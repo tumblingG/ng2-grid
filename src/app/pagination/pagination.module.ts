@@ -6,6 +6,7 @@ import { ZcPaginationComponent } from './zc-pagination/zc-pagination.component';
   declarations: [ZcPaginationComponent],
   imports: [
     CommonModule
-  ]
+  ],
+  exports: [ZcPaginationComponent]
 })
 export class PaginationModule { }

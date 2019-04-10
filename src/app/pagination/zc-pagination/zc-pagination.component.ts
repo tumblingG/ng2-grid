@@ -5,8 +5,6 @@ import {
   EventEmitter,
   Input,
   OnChanges,
-  OnDestroy,
-  OnInit,
   Output,
   SimpleChanges,
   TemplateRef,
@@ -14,10 +12,7 @@ import {
   ViewEncapsulation
 } from '@angular/core';
 
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
-import { isInteger } from "../../../share/until/check";
-import { toNumber, InputBoolean, InputNumber } from "../../../share/until/covert";
+import { InputBoolean, InputNumber } from "../../../share/until/covert";
 
 @Component({
   selector: 'zc-pagination',
@@ -27,17 +22,19 @@ import { toNumber, InputBoolean, InputNumber } from "../../../share/until/covert
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ZcPaginationComponent implements OnInit, OnDestroy, OnChanges {
+export class ZcPaginationComponent implements OnChanges {
 
   firstIndex = 1;
   pages: number[] = [];
-  private $destory = new Subject<void>();
   @Output() readonly zcPageSizeChange: EventEmitter<number> = new EventEmitter();
   @Output() readonly zcPageIndexChange: EventEmitter<number> = new EventEmitter();
+  @Input() zcShowTotal: TemplateRef<{ $implicit: number; range: [number, number] }>;
+  @Input() zcSize: 'default' | 'small' = 'default';
   @Input() @ViewChild('renderItemTemplate') zcItemRender: TemplateRef<{
     $implicit: 'page' | 'prev' | 'next';
     page: number
   }>;
+  @Input() @InputBoolean() zcHideOnSinglePage = false;
   @Input() @InputNumber() zcTotal = 0;
   @Input() @InputNumber() zcPageSize = 10;
   @Input() @InputNumber() zcPageIndex = 1;
@@ -103,22 +100,21 @@ export class ZcPaginationComponent implements OnInit, OnDestroy, OnChanges {
     return this.validatePageIndex(value) === value;
   }
 
-  onPageSizeChange($event: number): void {
-    this.zcPageIndex = $event;
-    this.zcPageIndexChange.emit($event);
-    this.buildIndexes();
-    if (this.zcPageIndex > this.lastIndex) {
-      this.updatePageIndexValue(this.lastIndex);
+  jumpPage(index: number): void {
+    if (index !== this.zcPageIndex) {
+      const pageIndex = this.validatePageIndex(index);
+      if (pageIndex !== this.zcPageIndex) {
+        this.updatePageIndexValue(pageIndex);
+      }
     }
+  }
+
+  jumpDiff(diff: number): void {
+    this.jumpPage(this.zcPageIndex + diff);
   }
 
   constructor(private cdr: ChangeDetectorRef) { }
 
-  ngOnInit() {
-  }
-
-  ngOnDestroy(): void {
-  }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.zcTotal || changes.zcPageSize || changes.zcPageIndex) {
