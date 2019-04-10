@@ -5,11 +5,10 @@ import { SlTdComponent } from './sl-td/sl-td.component';
 import { TrDirective } from './tr.directive';
 import { TbodyDirective } from './tbody.directive';
 import { SlThComponent } from './sl-th/sl-th.component';
-import { SlComponent } from './sl/sl.component';
 import { SlTableComponent } from './sl-table/sl-table.component';
 
 @NgModule({
-  declarations: [SlTdComponent, TrDirective, TbodyDirective, SlThComponent, SlComponent, SlTableComponent],
+  declarations: [SlTdComponent, TrDirective, TbodyDirective, SlThComponent, SlTableComponent],
   imports: [
     CommonModule,
     FormsModule
