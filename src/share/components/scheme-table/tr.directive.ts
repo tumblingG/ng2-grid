@@ -1,10 +1,14 @@
-import { Directive } from '@angular/core';
+import { Directive, Host, Optional } from '@angular/core';
+import { SlTableComponent } from "./sl-table/sl-table.component";
 
 @Directive({
-  selector: 'tr'
+  selector: 'tr',
+  host: {
+    '[class.sl-table-row]': 'slTableComponent'
+  }
 })
 export class TrDirective {
 
-  constructor() { }
+  constructor(@Host() @Optional() public slTableComponent: SlTableComponent) { }
 
 }

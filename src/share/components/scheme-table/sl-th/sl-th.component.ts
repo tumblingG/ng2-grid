@@ -1,5 +1,9 @@
-import {ChangeDetectionStrategy, Component, OnInit, ViewEncapsulation, Input, HostBinding, Output, EventEmitter} from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnInit, ViewEncapsulation, Input, HostBinding, Output, EventEmitter,
+  OnChanges,
+  OnDestroy,
+  SimpleChanges} from '@angular/core';
 import { InputBoolean } from "../../../until/covert";
+import {Subject} from 'rxjs';
 
 @Component({
   selector: 'app-sl-th',
@@ -9,8 +13,10 @@ import { InputBoolean } from "../../../until/covert";
   encapsulation: ViewEncapsulation.None,
   preserveWhitespaces: false
 })
-export class SlThComponent implements OnInit {
+export class SlThComponent implements OnInit, OnChanges, OnDestroy {
+  slWidthChange$ = new Subject();
   @Input() slChecked = false;
+  @Input() slWidth: string;
   @Input() @HostBinding() slAlign: 'left' | 'right' | 'center' = 'left';
   @Input() @InputBoolean() slShowCheckbox = false;
   @Output() readonly slCheckedChange = new EventEmitter<boolean>();
@@ -18,6 +24,15 @@ export class SlThComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes.slWidth) {
+      this.slWidthChange$.next(this.slWidth);
+    }
+  }
+
+  ngOnDestroy(): void {
   }
 
 }
