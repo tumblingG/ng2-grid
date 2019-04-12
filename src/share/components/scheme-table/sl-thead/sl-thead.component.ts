@@ -1,4 +1,8 @@
-import {ChangeDetectionStrategy, Component, OnInit, ViewEncapsulation, QueryList, ContentChildren, Host, Optional} from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnInit, ViewEncapsulation, QueryList, ContentChildren, Host, Optional,
+  ElementRef,
+  Renderer2,
+  ViewChild,
+  TemplateRef} from '@angular/core';
 import { SlThComponent } from '../sl-th/sl-th.component';
 import {SlTableComponent} from "../sl-table/sl-table.component";
 @Component({
@@ -9,8 +13,13 @@ import {SlTableComponent} from "../sl-table/sl-table.component";
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SlTheadComponent implements OnInit {
+  @ViewChild('contentTemplate') templateRef: TemplateRef<void>;
   @ContentChildren(SlThComponent, {descendants: true}) listOfNzThComponent: QueryList<SlThComponent>;
-  constructor(@Host() @Optional() public slTableComponent: SlTableComponent) {
+  constructor(
+      @Host() @Optional() public slTableComponent: SlTableComponent,
+      private elementRef: ElementRef,
+      private renderer: Renderer2
+  ) {
     if (this.slTableComponent) {
       this.slTableComponent.slTheadComponent = this;
     }

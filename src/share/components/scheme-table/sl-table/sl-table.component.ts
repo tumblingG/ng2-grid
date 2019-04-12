@@ -15,7 +15,7 @@ import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 import {SlTheadComponent} from "../sl-thead/sl-thead.component";
 import {SlThComponent} from "../sl-th/sl-th.component";
 import {SlVirtualScrollDirective} from "../sl-virtual-scroll.directive";
-import {InputBoolean, InputNumber} from "../../../until/covert";
+import {InputBoolean, InputNumber} from "../../../util/covert";
 import {SlMeasureScrollbarService} from "../../../services/sl-measure-scrollbar.service";
 import {Subject, merge} from 'rxjs';
 import { flatMap, startWith, takeUntil } from 'rxjs/operators';
@@ -67,6 +67,7 @@ export class SlTableComponent implements OnInit, OnChanges, AfterViewInit, After
   @Input() @InputBoolean() slBordered = false;
   @Input() @InputBoolean() slShowPagination = true;
   @Input() @InputBoolean() slLoading = false;
+  @Input() @InputBoolean() slShowSizeChanger = false;
   @Input() @InputBoolean() slHideOnSinglePage = false;
   @Output() readonly slPageSizeChange: EventEmitter<number> = new EventEmitter();
   @Output() readonly slPageIndexChange: EventEmitter<number> = new EventEmitter();

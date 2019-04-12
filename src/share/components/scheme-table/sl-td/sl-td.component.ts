@@ -9,7 +9,7 @@ import {
   SimpleChanges,
   HostBinding
 } from '@angular/core';
-import {InputBoolean} from "../../../until/covert";
+import {InputBoolean} from "../../../util/covert";
 
 
 @Component({

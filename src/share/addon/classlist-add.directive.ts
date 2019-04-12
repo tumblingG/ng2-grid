@@ -1,0 +1,24 @@
+import { Directive, Input, ElementRef, Renderer2 } from '@angular/core';
+
+@Directive({
+  selector: '[slClassListAdd]'
+})
+export class ClasslistAddDirective {
+  classList: string[] = [];
+
+  @Input()
+  set slClassListAdd(list: string[]) {
+    this.classList.forEach(name => {
+      this.renderer.removeClass(this.elementRef.nativeElement, name);
+    });
+    list.forEach(name => {
+      this.renderer.addClass(this.elementRef.nativeElement, name);
+    });
+    this.classList = list;
+  }
+  constructor(
+      private elementRef: ElementRef,
+      private renderer: Renderer2
+  ) { }
+
+}

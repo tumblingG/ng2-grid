@@ -1,0 +1,70 @@
+<ng-template #renderItemTemplate let-type let-page="page">
+    <a *ngIf="type==='pre'" class="zc-pagination-item-link">
+        <i class="zcicon">
+            <svg viewBox="64 64 896 896" fill="currentColor" width="1em" height="1em" data-icon="left" aria-hidden="true">
+                <path d="M724 218.3V141c0-6.7-7.7-10.4-12.9-6.3L260.3 486.8a31.86 31.86 0 0 0 0 50.3l450.8 352.1c5.3 4.1 12.9.4 12.9-6.3v-77.3c0-4.9-2.3-9.6-6.1-12.6l-360-281 360-281.1c3.8-3 6.1-7.7 6.1-12.6z"></path>
+            </svg>
+        </i>
+    </a>
+    <a *ngIf="type==='next'" class="zc-pagination-item-link"><i class="zcicon">
+        <svg viewBox="64 64 896 896" fill="currentColor" width="1em" height="1em" data-icon="right" aria-hidden="true">
+            <path d="M765.7 486.8L314.9 134.7A7.97 7.97 0 0 0 302 141v77.3c0 4.9 2.3 9.6 6.1 12.6l360 281.1-360 281.1c-3.9 3-6.1 7.7-6.1 12.6V883c0 6.7 7.7 10.4 12.9 6.3l450.8-352.1a31.96 31.96 0 0 0 0-50.4z"></path>
+        </svg>
+    </i></a>
+    <a *ngIf="type==='page'">{{page}}</a>
+</ng-template>
+<ng-container *ngIf="zcHideOnSinglePage && (zcTotal > zcPageSize) || !zcHideOnSinglePage">
+    <ul class="zc-pagination">
+        <li *ngIf="zcShowTotal" class="zc-pagination-total-text">
+            <ng-template [ngTemplateOutlet]="zcShowTotal" [ngTemplateOutletContext]="{ $implicit: zcTotal, range: ranges}"></ng-template>
+        </li>
+        <li class="zc-pagination-prev"
+            [attr.title]="'前一页'"
+            [class.zc-pagination-disabled]="isFirstIndex"
+            (click)="jumpDiff(-1)">
+            <ng-template [ngTemplateOutlet]="zcItemRender" [ngTemplateOutletContext]="{ $implicit: 'pre'}"></ng-template>
+        </li>
+        <li class="zc-pagination-item"
+            [attr.title]="firstIndex"
+            [class.zc-pagination-item-active]="isFirstIndex"
+            (click)="jumpPage(firstIndex)">
+            <ng-template [ngTemplateOutlet]="zcItemRender" [ngTemplateOutletContext]="{ $implicit: 'page', page: firstIndex}"></ng-template>
+        </li>
+        <li class="zc-pagination-jump-prev"
+            *ngIf="(lastIndex > 9) && (zcPageIndex - 3 > firstIndex)"
+            [attr.title]="'向前5页'"
+            (click)="jumpDiff(-5)">
+            <a>
+                <span>...</span>
+            </a>
+        </li>
+        <li class="zc-pagination-item"
+            *ngFor="let page of pages"
+            [attr.title]="page"
+            [class.zc-pagination-item-active]="zcPageIndex === page"
+            (click)="jumpPage(page)">
+            <ng-template [ngTemplateOutlet]="zcItemRender" [ngTemplateOutletContext]="{ $implicit: 'page', page: page }"></ng-template>
+        </li>
+        <li class="zc-pagination-jump-next"
+            [attr.title]="'向后5页'"
+            (click)="jumpDiff(5)"
+            *ngIf="(lastIndex > 9) && (zcPageIndex + 3 < lastIndex)">
+            <a>
+                <span>...</span>
+            </a>
+        </li>
+        <li class="zc-pagination-item"
+            [attr.title]="lastIndex"
+            (click)="jumpPage(lastIndex)"
+            [class.zc-pagination-item-active]="isLastIndex"
+            *ngIf="(lastIndex > 0) && (lastIndex !== firstIndex)">
+            <ng-template [ngTemplateOutlet]="zcItemRender" [ngTemplateOutletContext]="{ $implicit: 'page', page: lastIndex }"></ng-template>
+        </li>
+        <li class="zc-pagination-next"
+            [attr.title]="'后一页'"
+            [class.zc-pagination-disabled]="isLastIndex"
+            (click)="jumpDiff(1)">
+            <ng-template [ngTemplateOutlet]="zcItemRender" [ngTemplateOutletContext]="{$implicit: 'next'}"></ng-template>
+        </li>
+    </ul>
+</ng-container>

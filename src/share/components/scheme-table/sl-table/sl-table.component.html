@@ -1,3 +1,94 @@
-<p>
-  sl-table works!
-</p>
+<ng-template #colGroupTemplate>
+  <colgroup>
+    <col [style.width]="width" [style.minWidth]="width" *ngFor="let width of slWidthConfig">
+    <col [style.width]="th.slWidth" [style.minWidth]="th.slWidth" *ngFor="let th of listOfSlThComponent">
+  </colgroup>
+</ng-template>
+<ng-template #headerTemplate>
+  <ng-template [ngTemplateOutlet]="colGroupTemplate"></ng-template>
+  <thead class="sl-table-thead" *ngIf="!slScroll.y">
+    <ng-template [ngTemplateOutlet]="slTheadComponent?.templateRef"></ng-template>
+  </thead>
+</ng-template>
+<ng-template #tableInnerTemplate>
+  <div #tableHeaderElement
+  *ngIf="slScroll.x || slScroll.y"
+  [ngStyle]="headerBottomStyle" class="sl-table-header">
+    <table [class.sl-table-fixed]="slScroll.x" [style.width]="slScroll.x">
+      <ng-template [ngTemplateOutlet]="colGroupTemplate"></ng-template>
+      <thead class="sl-table-thead" *ngIf="slScroll.y">
+        <ng-template [ngTemplateOutlet]="slTheadComponent?.templateRef"></ng-template>
+      </thead>
+    </table>
+  </div>
+  <div #tableBodyElement *ngIf="!slVirtualScroll;else scrollViewTpl"
+    class="sl-table-body"
+    [style.maxHeight]="slScroll.y"
+    [style.overflow-y]="slScroll.y ? 'scroll': ''"
+    [style.overflow-x]="slScroll.x ? 'auto' : ''">
+    <table [class.sl-table-fixed]="slScroll.x" [style.width]="slScroll.x">
+      <ng-template [ngIf]="!slVirtualScroll" [ngTemplateOutlet]="headerTemplate"></ng-template>
+      <ng-content></ng-content>
+    </table>
+  </div>
+  <ng-template #scrollViewTpl>
+    <cdk-virtual-scroll-viewport
+      class="sl-table-body"
+      [itemSize]="slVirtualItemSize"
+      [maxBufferPx]="slVirtualMaxBufferPx"
+      [minBufferPx]="slVirtualMinBufferPx"
+      [style.height]="slScroll.y">
+      <table [class.sl-table-fixed]="slScroll.x" [style.width]="slScroll.x">
+        <ng-template [ngIf]="slVirtualScroll" [ngTemplateOutlet]="headerTemplate"></ng-template>
+        <tbody>
+          <ng-container *cdkVirtualFor="let item of data; let i= index">
+            <ng-template [templateOutlet]="slVirtualScrollDirective?.templateRef"
+            [ngTemplateOutletContext]="{$implicit: item, index: i}"></ng-template>
+          </ng-container>
+        </tbody>
+      </table>
+    </cdk-virtual-scroll-viewport>
+  </ng-template>
+  <div class="sl-table-placeholder" *ngIf="data.length === 0 && !slLoading && !slTemplateMode">
+    <!--<nz-embed-empty [nzComponentName]="'table'" [specificContent]="slNoResult"></nz-embed-empty>-->
+  </div>
+  <div class="sl-table-footer" *ngIf="slFooter">
+    <ng-container *slStringTemplateOutlet="slFooter">{{slFooter}}</ng-container>
+  </div>
+</ng-template>
+<ng-template #paginationTemplate>
+  <sl-pagination *ngIf="slShowPagination && data.length"
+     [slShowSizeChanger]="slShowSizeChanger"
+     [slHideOnSinglePage]="slHideOnSinglePage"
+     [slShowTotal]="slShowTotal"
+     [slPageSize]="slPageSize"
+     [slTotal]="slTotal"
+     [slPageIndex]="slPageIndex"
+     (slPageSizeChange)="emitPageSizeOrIndex($event, slPageIndex)"
+     (slPageIndexChange)="emitPageSizeOrIndex(slPageSize, $event)"
+  >
+  </sl-pagination>
+</ng-template>
+
+<sl-spin [slDelay]="slLoadingDelay" [slSpinning]="slLoading">
+  <ng-container *ngIf="slPaginationPosition === 'both' || slPaginationPosition === 'top'">
+    <ng-template [ngTemplateOutlet]="paginationTemplate"></ng-template>
+  </ng-container>
+  <div #tableMainElement class="sl-table"
+  [class.sl-table-fixed-header]="slScroll.x || slScroll.y"
+  [class.sl-table-bordered]="slBordered">
+    <div class="sl-table-title" *ngIf="slTitle">
+      <ng-container *slStringTemplateOutlet="slTitle">{{slTitle}}</ng-container>
+    </div>
+    <div class="sl-table-content">
+      <ng-container *ngIf="slScroll.x || slScroll.y; else tableInnerTemplate">
+        <div class="sl-table-scroll">
+          <ng-template [ngTemplateOutlet]="tableInnerTemplate"></ng-template>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+  <ng-container *ngIf="slPaginationPosition === 'both' || slPaginationPosition === 'top'">
+    <ng-template [ngTemplateOutlet]="paginationTemplate"></ng-template>
+  </ng-container>
+</sl-spin>

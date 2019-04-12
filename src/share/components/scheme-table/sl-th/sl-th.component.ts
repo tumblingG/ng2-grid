@@ -2,7 +2,7 @@ import {ChangeDetectionStrategy, Component, OnInit, ViewEncapsulation, Input, Ho
   OnChanges,
   OnDestroy,
   SimpleChanges} from '@angular/core';
-import { InputBoolean } from "../../../until/covert";
+import { InputBoolean } from "../../../util/covert";
 import {Subject} from 'rxjs';
 
 @Component({

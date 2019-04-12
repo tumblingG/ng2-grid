@@ -1,0 +1,20 @@
+<ng-template #defaultIndicatorTemplate>
+  <span class="sl-spin-dot" [class.sl-spin-dot-spin]="loading">
+    <i></i><i></i><i></i><i></i>
+  </span>
+</ng-template>
+<div *ngIf="loading">
+  <div class="sl-spin"
+  [class.sl-spin-spinning]="loading"
+  [class.sl-spin-lg]="slSize === 'large'"
+  [class.sl-spin-sm]="slSize === 'small'"
+  [class.sl-spin-show-text]="slTip">
+    <ng-template [ngTemplateOutlet]="slIndicator || defaultIndicatorTemplate"></ng-template>
+    <div class="sl-spin-text" *ngIf="slTip">{{ slTip }}</div>
+  </div>
+</div>
+<div *ngIf="!slSimple"
+   class="sl-spin-container"
+   [class.sl-spin-blur]="loading">
+  <ng-content></ng-content>
+</div>

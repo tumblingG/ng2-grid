@@ -12,10 +12,10 @@ import {
   ViewEncapsulation
 } from '@angular/core';
 
-import { InputBoolean, InputNumber } from "../../../share/util/covert";
+import { InputBoolean, InputNumber } from "../../../util/covert";
 
 @Component({
-  selector: 'zc-pagination',
+  selector: 'sl-pagination',
   templateUrl: './zc-pagination.component.html',
   styleUrls: ['./zc-pagination.component.less'],
   preserveWhitespaces: false,
