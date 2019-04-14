@@ -1,0 +1,31 @@
+<sl-table #tableInstance  [slData]="data"
+          (slCurrentPageDataChange)="currentPageDataChange($event)">
+  <thead>
+  <tr>
+   <th slShowCheckbox *ngIf="config.enableRowHeaderSelection"
+   [style.width]="config.selectionRowHeaderWidth"
+   [(slChecked)]="isAllDisplayDataChecked"
+   (slCheckedChange)="checkAll($event)">
+   </th>
+    <th *ngFor="let column of config.columnDefs"
+        [style.width]="column.width"
+        [innerHTML]="column.displayName">
+    </th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let data of tableInstance.data; let rowIndex = index; trackBy: trackById"
+  [ngClass]="isFunction(config.rowClass) && config.rowClass(data, rowIndex)">
+    <td slSHowCheckbox *ngIf="config.enableRowSelection"
+        [(slChecked)]="mapOfCheckedKey[data[trackKey]]"
+        (slCheckedChange)="refreshStatus()"
+    ></td>
+    <td *ngFor="let column of config.columnDefs; let colIndex=index"
+        [ngClass]="isFunction(column.cellClass) && column.cellClass(data, rowIndex, colIndex)"
+      [innerHTML]="isFunction(column.cellTemplate) ? column.cellTemplate(data) : data[column.field]">
+    </td>
+  </tr>
+  </tbody>
+</sl-table>
+
+

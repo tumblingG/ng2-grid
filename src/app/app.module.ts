@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { PaginationModule } from './pagination/pagination.module';
 import { SpinModule } from '../share/components/spin/spin.module';
+import {SchemeTableModule} from 'src/share/components/scheme-table/scheme-table.module';
 
 @NgModule({
   declarations: [
@@ -12,7 +13,8 @@ import { SpinModule } from '../share/components/spin/spin.module';
   imports: [
     BrowserModule,
     PaginationModule,
-    SpinModule
+    SpinModule,
+    SchemeTableModule
   ],
   providers: [],
   bootstrap: [AppComponent]

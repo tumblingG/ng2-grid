@@ -26,7 +26,7 @@
     [style.maxHeight]="slScroll.y"
     [style.overflow-y]="slScroll.y ? 'scroll': ''"
     [style.overflow-x]="slScroll.x ? 'auto' : ''">
-    <table [class.sl-table-fixed]="slScroll.x" [style.width]="slScroll.x">
+    <table [class.sl-table-fixed]="slScroll.x" [style.width]="slScroll.x" [cellSpacing]="0" [cellPadding]="0">
       <ng-template [ngIf]="!slVirtualScroll" [ngTemplateOutlet]="headerTemplate"></ng-template>
       <ng-content></ng-content>
     </table>
@@ -42,7 +42,7 @@
         <ng-template [ngIf]="slVirtualScroll" [ngTemplateOutlet]="headerTemplate"></ng-template>
         <tbody>
           <ng-container *cdkVirtualFor="let item of data; let i= index">
-            <ng-template [templateOutlet]="slVirtualScrollDirective?.templateRef"
+            <ng-template [ngTemplateOutlet]="slVirtualScrollDirective?.templateRef"
             [ngTemplateOutletContext]="{$implicit: item, index: i}"></ng-template>
           </ng-container>
         </tbody>
@@ -58,14 +58,13 @@
 </ng-template>
 <ng-template #paginationTemplate>
   <sl-pagination *ngIf="slShowPagination && data.length"
-     [slShowSizeChanger]="slShowSizeChanger"
-     [slHideOnSinglePage]="slHideOnSinglePage"
-     [slShowTotal]="slShowTotal"
-     [slPageSize]="slPageSize"
-     [slTotal]="slTotal"
-     [slPageIndex]="slPageIndex"
-     (slPageSizeChange)="emitPageSizeOrIndex($event, slPageIndex)"
-     (slPageIndexChange)="emitPageSizeOrIndex(slPageSize, $event)"
+     [zcHideOnSinglePage]="slHideOnSinglePage"
+     [zcShowTotal]="slShowTotal"
+     [zcPageSize]="slPageSize"
+     [zcTotal]="slTotal"
+     [zcPageIndex]="slPageIndex"
+     (zcPageSizeChange)="emitPageSizeOrIndex($event, slPageIndex)"
+     (zcPageIndexChange)="emitPageSizeOrIndex(slPageSize, $event)"
   >
   </sl-pagination>
 </ng-template>

@@ -2,6 +2,7 @@
     type="checkbox"
     *ngIf="slSHowCheckbox"
     [disabled]="slDisabled"
-    [(ngModel)] = 'slChecked'
+    [(ngModel)]="slChecked"
+    (ngModelChange)="slCheckedChange.emit($event)"
 >
 <ng-content></ng-content>

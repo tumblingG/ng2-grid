@@ -6,7 +6,7 @@ import { InputBoolean } from "../../../util/covert";
 import {Subject} from 'rxjs';
 
 @Component({
-  selector: 'app-sl-th',
+  selector: 'th',
   templateUrl: './sl-th.component.html',
   styleUrls: ['./sl-th.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -17,7 +17,7 @@ export class SlThComponent implements OnInit, OnChanges, OnDestroy {
   slWidthChange$ = new Subject();
   @Input() slChecked = false;
   @Input() slWidth: string;
-  @Input() @HostBinding() slAlign: 'left' | 'right' | 'center' = 'left';
+  @Input()  @HostBinding('style.text-align') slAlign: 'left' | 'right' | 'center' = 'left';
   @Input() @InputBoolean() slShowCheckbox = false;
   @Output() readonly slCheckedChange = new EventEmitter<boolean>();
 

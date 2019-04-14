@@ -12,9 +12,10 @@ import { SlThComponent } from './sl-th/sl-th.component';
 import { SlTableComponent } from './sl-table/sl-table.component';
 import { SlTheadComponent } from './sl-thead/sl-thead.component';
 import { SlVirtualScrollDirective } from './sl-virtual-scroll.directive';
+import { SchemeTableComponent } from './scheme-table/scheme-table.component';
 
 @NgModule({
-  declarations: [SlTdComponent, TrDirective, TbodyDirective, SlThComponent, SlTableComponent, SlTheadComponent, SlVirtualScrollDirective],
+  declarations: [SlTdComponent, TrDirective, TbodyDirective, SlThComponent, SlTableComponent, SlTheadComponent, SlVirtualScrollDirective, SchemeTableComponent],
   imports: [
     CommonModule,
     FormsModule,
@@ -22,6 +23,7 @@ import { SlVirtualScrollDirective } from './sl-virtual-scroll.directive';
     AddonModule,
     PaginationModule,
     SpinModule
-  ]
+  ],
+  exports: [SchemeTableComponent]
 })
 export class SchemeTableModule { }
