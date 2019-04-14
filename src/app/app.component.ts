@@ -1,17 +1,25 @@
-import { Component, TemplateRef } from '@angular/core';
+import { Component, TemplateRef, ViewChild, OnInit, EmbeddedViewRef, ViewContainerRef } from '@angular/core';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.less']
 })
-export class AppComponent {
+export class AppComponent implements OnInit{
   title = 'ng2-table';
   total = 200;
   pageSize = 10;
   pageIndex = 2;
-
+  template:  EmbeddedViewRef<void>;
+  @ViewChild('tdTemplate', {read: TemplateRef}) tpl: TemplateRef<any>;
+  @ViewChild('haha', {read: ViewContainerRef}) container: ViewContainerRef;
   constructor() {
+  }
+  ngOnInit(): void {
+    this.template = this.tpl.createEmbeddedView({$implicit: {id:2}});
+    console.log(this.template);
+    this.container.insert(this.template);
+    // this.container.createEmbeddedView(this.tdTemplate);
   }
 
   addIndex() {
@@ -22,6 +30,10 @@ export class AppComponent {
   }
   modeChange($event: number) {
     console.log(`ni ${$event}`);
+  }
+
+  console(data) {
+    console.log(data);
   }
 
   tdClick($event) {
@@ -62,8 +74,9 @@ export class AppComponent {
         field: 'name',
         displayName: '名称',
         width: '20%',
-        cellTemplate: function(data) {
-          return `<a href="https://www.baidu.com" (click)="console(1)">${data['name']}</a>`;
+        cellTemplate: () => {
+          return this.tpl;
+          //return `<a href="https://www.baidu.com" (click)="console(1)">${data['name']}</a>`;
         }
       },
       {

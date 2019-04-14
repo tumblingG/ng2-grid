@@ -12,4 +12,12 @@
 <button (click)="addTotal()">addTotal</button>
 <button (click)="addIndex()">addIndex</button>
 {{pageIndex}}
+<hr>
+
+<div #haha></div>
+<ng-template #tdTemplate let-data>
+    <a (click)="console(data)">edit</a> |
+    <a>user</a> |
+    <a>delete</a>
+</ng-template>
 

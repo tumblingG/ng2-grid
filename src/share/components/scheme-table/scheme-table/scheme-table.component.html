@@ -22,10 +22,18 @@
     ></td>
     <td *ngFor="let column of config.columnDefs; let colIndex=index"
         [ngClass]="isFunction(column.cellClass) && column.cellClass(data, rowIndex, colIndex)"
-      [innerHTML]="isFunction(column.cellTemplate) ? column.cellTemplate(data) : data[column.field]">
+      >
+        <ng-container *ngIf="column.cellTemplate">
+            <ng-template [ngTemplateOutlet]="column.cellTemplate()"
+                         [ngTemplateOutletContext]="{$implicit: data}"></ng-template>
+        </ng-container>
+
     </td>
   </tr>
   </tbody>
 </sl-table>
+<ng-template #ggg>
+    <div>ss</div>
+</ng-template>
 
 

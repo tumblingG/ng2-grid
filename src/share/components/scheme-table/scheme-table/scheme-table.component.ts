@@ -6,7 +6,8 @@ import {
   OnInit,
   Output,
   ViewChild,
-  ViewEncapsulation
+  ViewEncapsulation,
+  TemplateRef
 } from '@angular/core';
 import {defaultConfig} from "../scheme-table.defaultConfig";
 import {SlTableComponent} from '../sl-table/sl-table.component';
@@ -26,11 +27,14 @@ export class SchemeTableComponent implements OnInit {
   trackKey: string = 'id';
   isAllDisplayDataChecked = false;
   mapOfCheckedKey: {[key: string]: boolean} = {};
-
+  @ViewChild('ggg', {read: TemplateRef}) tpl: TemplateRef<any>;
   @ViewChild('tableInstance')  tableInstance: SlTableComponent;
   @Input() config: any;
   @Output() selectDataChange: EventEmitter<any[]> = new EventEmitter();
 
+  getTemplate() {
+    return this.tpl;
+  }
   trackById = (index: number, item: any): string | number => {
     let key = this.trackKey || 'id';
     return item[key];
