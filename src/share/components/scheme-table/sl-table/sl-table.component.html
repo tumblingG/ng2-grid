@@ -14,7 +14,7 @@
   <div #tableHeaderElement
   *ngIf="slScroll.x || slScroll.y"
   [ngStyle]="headerBottomStyle" class="sl-table-header">
-    <table [class.sl-table-fixed]="slScroll.x" [style.width]="slScroll.x">
+    <table [class.sl-table-fixed]="slScroll.x" [style.width]="slScroll.x" class="table table-hover">
       <ng-template [ngTemplateOutlet]="colGroupTemplate"></ng-template>
       <thead class="sl-table-thead" *ngIf="slScroll.y">
         <ng-template [ngTemplateOutlet]="slTheadComponent?.templateRef"></ng-template>
@@ -26,7 +26,8 @@
     [style.maxHeight]="slScroll.y"
     [style.overflow-y]="slScroll.y ? 'scroll': ''"
     [style.overflow-x]="slScroll.x ? 'auto' : ''">
-    <table [class.sl-table-fixed]="slScroll.x" [style.width]="slScroll.x" [cellSpacing]="0" [cellPadding]="0">
+    <table [class.sl-table-fixed]="slScroll.x" [style.width]="slScroll.x" [cellSpacing]="0" [cellPadding]="0"
+    class="table table-bordered table-hover">
       <ng-template [ngIf]="!slVirtualScroll" [ngTemplateOutlet]="headerTemplate"></ng-template>
       <ng-content></ng-content>
     </table>
@@ -38,7 +39,7 @@
       [maxBufferPx]="slVirtualMaxBufferPx"
       [minBufferPx]="slVirtualMinBufferPx"
       [style.height]="slScroll.y">
-      <table [class.sl-table-fixed]="slScroll.x" [style.width]="slScroll.x">
+      <table [class.sl-table-fixed]="slScroll.x" [style.width]="slScroll.x" >
         <ng-template [ngIf]="slVirtualScroll" [ngTemplateOutlet]="headerTemplate"></ng-template>
         <tbody>
           <ng-container *cdkVirtualFor="let item of data; let i= index">
@@ -87,7 +88,7 @@
       </ng-container>
     </div>
   </div>
-  <ng-container *ngIf="slPaginationPosition === 'both' || slPaginationPosition === 'top'">
+  <ng-container *ngIf="slPaginationPosition === 'both' || slPaginationPosition === 'bottom'">
     <ng-template [ngTemplateOutlet]="paginationTemplate"></ng-template>
   </ng-container>
 </sl-spin>

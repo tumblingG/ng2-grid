@@ -20,7 +20,8 @@ import {SlTableComponent} from '../sl-table/sl-table.component';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SchemeTableComponent implements OnInit {
-  data: any[] = [];
+  title = 'AAA';
+  @Input() data: any[] = [];
   listOfDisplayData: any[] = [];
   selectedData: any[] = [];
   API: any;
@@ -31,6 +32,7 @@ export class SchemeTableComponent implements OnInit {
   @ViewChild('tableInstance')  tableInstance: SlTableComponent;
   @Input() config: any;
   @Output() selectDataChange: EventEmitter<any[]> = new EventEmitter();
+  @Output() PageIndexChange: EventEmitter<number> = new EventEmitter();
 
   getTemplate() {
     return this.tpl;
@@ -48,7 +50,6 @@ export class SchemeTableComponent implements OnInit {
     this.isAllDisplayDataChecked = this.listOfDisplayData.every(item =>
       this.mapOfCheckedKey[item[key]]
     );
-    console.log(this.isAllDisplayDataChecked)
   }
   checkAll(value: boolean): void {
     console.log(this.mapOfCheckedKey);
@@ -65,17 +66,13 @@ export class SchemeTableComponent implements OnInit {
 
   ngOnInit() {
     this.config = Object.assign({}, defaultConfig, this.config);
-    let { data, API, trackKey } = this.config;
+    let { API, trackKey } = this.config;
     trackKey && (this.trackKey = trackKey);
-    if (data) {
-      this.data = data;
-    }else if (API && typeof API === 'object') {
+    if (!this.data.length && API && typeof API === 'object') {
       this.API = API;
       API.get().subscribe(result => {
         this.data = result.data;
       });
-    } else {
-      throw new Error('must defined data or API');
     }
   }
 }

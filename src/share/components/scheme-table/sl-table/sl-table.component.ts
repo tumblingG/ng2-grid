@@ -54,7 +54,7 @@ export class SlTableComponent implements OnInit, OnChanges, AfterViewInit, After
   @Input() slNoResult: string | TemplateRef<void>;
   @Input() slWidthConfig: string[] = [];
   @Input() slPageIndex = 1;
-  @Input() slPageSize = 10;
+  @Input() slPageSize = 2;
   @Input() slData = [];
   @Input() slPaginationPosition: 'top' | 'bottom' | 'both' = 'bottom';
   @Input() slScroll: {x: string | null, y:string | null} = {x: null, y: null};

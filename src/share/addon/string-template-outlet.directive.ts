@@ -12,7 +12,9 @@ export class StringTemplateOutletDirective {
   constructor(
       private viewContainer: ViewContainerRef,
       private defaultTemplate: TemplateRef<void>
-  ) { }
+  ) {
+    console.log(this.defaultTemplate);
+  }
 
   @Input()
   set slStringTemplateOutlet(value: string | TemplateRef<void>) {

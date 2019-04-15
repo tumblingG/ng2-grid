@@ -1,5 +1,6 @@
 <sl-table #tableInstance  [slData]="data"
-          (slCurrentPageDataChange)="currentPageDataChange($event)">
+  (slCurrentPageDataChange)="currentPageDataChange($event)"
+  (slPageIndexChange)="PageIndexChange.emit($event)">
   <thead>
   <tr>
    <th slShowCheckbox *ngIf="config.enableRowHeaderSelection"
@@ -7,7 +8,7 @@
    [(slChecked)]="isAllDisplayDataChecked"
    (slCheckedChange)="checkAll($event)">
    </th>
-    <th *ngFor="let column of config.columnDefs"
+    <th *ngFor="let column of config?.columnDefs"
         [style.width]="column.width"
         [innerHTML]="column.displayName">
     </th>
@@ -20,20 +21,23 @@
         [(slChecked)]="mapOfCheckedKey[data[trackKey]]"
         (slCheckedChange)="refreshStatus()"
     ></td>
-    <td *ngFor="let column of config.columnDefs; let colIndex=index"
-        [ngClass]="isFunction(column.cellClass) && column.cellClass(data, rowIndex, colIndex)"
-      >
-        <ng-container *ngIf="column.cellTemplate">
-            <ng-template [ngTemplateOutlet]="column.cellTemplate()"
+    <td *ngFor="let column of config?.columnDefs; let colIndex=index"
+        [ngClass]="isFunction(column.cellClass) && column.cellClass(data, rowIndex, colIndex)">
+        <ng-container *ngIf="column.cellTemplate;else commonTd">
+            <ng-template [ngTemplateOutlet]="column.cellTemplate"
                          [ngTemplateOutletContext]="{$implicit: data}"></ng-template>
         </ng-container>
-
+        <ng-template #commonTd>{{data[column.field]}}</ng-template>
     </td>
   </tr>
   </tbody>
 </sl-table>
 <ng-template #ggg>
-    <div>ss</div>
+    <div>1111</div>
+</ng-template>
+
+<ng-template [slStringTemplateOutlet]="title">
+    {{title}}
 </ng-template>
 
 
