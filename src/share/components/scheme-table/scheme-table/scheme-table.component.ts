@@ -11,13 +11,16 @@ import {
 } from '@angular/core';
 import {defaultConfig} from "../scheme-table.defaultConfig";
 import {SlTableComponent} from '../sl-table/sl-table.component';
+import {TableOptionsService} from '../services/table-options.service';
+import {TableUtilService} from '../services/table-util.service';
 
 @Component({
   selector: 'scheme-table',
   templateUrl: './scheme-table.component.html',
   styleUrls: ['./scheme-table.component.less'],
   encapsulation: ViewEncapsulation.None,
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [TableOptionsService, TableUtilService]
 })
 export class SchemeTableComponent implements OnInit {
   title = 'AAA';
