@@ -9,8 +9,16 @@ export class TableOptionsService {
   initialize(baseOptions) {
     baseOptions.columnDefs = baseOptions.columnDefs || [];
     baseOptions.uid = baseOptions || '$$hashKey';
-    baseOptions.rowIdentity = baseOptions.rowIdentity || ((row) => {
-      return this.tableUtil.hashKey(row)
+    const rowIdentity = baseOptions.rowIdentity;
+    baseOptions.rowIdentity = ((row) => {
+      if (!row.$$hashkey) {
+        if (typeof rowIdentity === 'function') {
+          row.$$hashkey = rowIdentity(row);
+        } else {
+          this.tableUtil.hashKey(row)
+        }
+      }
+      return row.$$hashkey;
     });
     baseOptions.getRowIdentity = baseOptions.getRowIdentity || ((row) => {
       return row.$$hashkey;
@@ -20,5 +28,6 @@ export class TableOptionsService {
     baseOptions.rowEquality = baseOptions.rowEquality || ((entityA, entityB) => {
       return entityA === entityB;
     });
+    return baseOptions;
   }
 }

@@ -55,7 +55,6 @@ export class TableUtilService {
   hashKey(obj) {
     let objType = typeof obj;
     let key;
-
     if (objType === 'object' && obj !== null) {
       if (typeof (key = obj.$$hashkey) === 'function') {
         key === obj.$$hashkey();
@@ -67,7 +66,6 @@ export class TableUtilService {
     }else {
       key = obj;
     }
-
     return `${objType}: ${key}`;
   }
 
