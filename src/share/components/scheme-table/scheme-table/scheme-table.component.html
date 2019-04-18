@@ -1,6 +1,6 @@
 <sl-table #tableInstance  [slData]="data"
   (slCurrentPageDataChange)="currentPageDataChange($event)"
-  (slPageIndexChange)="PageIndexChange.emit($event)">
+  (slPageIndexChange)="paginationChange.emit($event)">
   <thead>
   <tr>
    <th slShowCheckbox *ngIf="config.enableRowHeaderSelection"
@@ -9,17 +9,17 @@
    (slCheckedChange)="checkAll($event)">
    </th>
     <th *ngFor="let column of config?.columnDefs"
-        [style.width]="column.width"
-        [innerHTML]="column.displayName">
+        [style.width]="column.width">
+        {{column.displayName}}
     </th>
   </tr>
   </thead>
   <tbody>
-  <tr *ngFor="let data of tableInstance.data; let rowIndex = index; trackBy: trackById"
+  <tr *ngFor="let data of tableInstance.data; let rowIndex = index; trackBy: trackByHashKey"
   [ngClass]="isFunction(config.rowClass) && config.rowClass(data, rowIndex)">
     <td slSHowCheckbox *ngIf="config.enableRowSelection"
-        [(slChecked)]="mapOfCheckedKey[data[trackKey]]"
-        (slCheckedChange)="refreshStatus()"
+        [(slChecked)]="mapOfCheckedHashKey[data['$$hashKey']]"
+        (slCheckedChange)="singleCheck($event, data)"
     ></td>
     <td *ngFor="let column of config?.columnDefs; let colIndex=index"
         [ngClass]="isFunction(column.cellClass) && column.cellClass(data, rowIndex, colIndex)">
@@ -32,12 +32,5 @@
   </tr>
   </tbody>
 </sl-table>
-<ng-template #ggg>
-    <div>1111</div>
-</ng-template>
-
-<ng-template [slStringTemplateOutlet]="title">
-    {{title}}
-</ng-template>
 
 

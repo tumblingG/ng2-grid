@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 
-import { RowHashMapService } from './row-hash-map.service';
+import { HashKeyService } from './hash-key.service';
 
-describe('RowHashMapService', () => {
+describe('HashKeyService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {
-    const service: RowHashMapService = TestBed.get(RowHashMapService);
+    const service: HashKeyService = TestBed.get(HashKeyService);
     expect(service).toBeTruthy();
   });
 });

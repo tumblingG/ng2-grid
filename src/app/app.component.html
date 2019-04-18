@@ -1,5 +1,7 @@
-<scheme-table [config]="gridOptions" [data]="listOfData"></scheme-table>
+<scheme-table [options]="gridOptions" [data]="listOfData" (selectRowsChange)="showRowChange($event)"></scheme-table>
+
 <hr>
+<button type="button" (click)="getRow()">gggg</button>
 <sl-spin></sl-spin>
 <hr>
 <zc-pagination

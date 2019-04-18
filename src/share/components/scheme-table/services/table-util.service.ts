@@ -1,4 +1,5 @@
-import { Injectable } from '@angular/core';
+import { Injectable, forwardRef, Inject } from '@angular/core';
+import { TableOptionsService } from './table-options.service';
 
 @Injectable()
 export class TableUtilService {
@@ -46,27 +47,6 @@ export class TableUtilService {
     }
     this.uid.unshift('0');
     return this.uidPrefix + this.uid.join('');
-  }
-
-  /**
-   * 获取对象的hashkey
-   * @param obj
-   */
-  hashKey(obj) {
-    let objType = typeof obj;
-    let key;
-    if (objType === 'object' && obj !== null) {
-      if (typeof (key = obj.$$hashkey) === 'function') {
-        key === obj.$$hashkey();
-      } else if (typeof (obj.$$hashkey) !== 'undefined' && obj.$$hashkey) {
-        key = obj.$$hashkey;
-      } else if (key === undefined) {
-        key = obj.$$hashkey = this.nextUid();
-      }
-    }else {
-      key = obj;
-    }
-    return `${objType}: ${key}`;
   }
 
 }

@@ -1,4 +1,5 @@
 import { Component, TemplateRef, ViewChild, OnInit, EmbeddedViewRef, ViewContainerRef } from '@angular/core';
+import {BehaviorSubject} from 'rxjs'
 
 @Component({
   selector: 'app-root',
@@ -12,6 +13,7 @@ export class AppComponent implements OnInit{
   pageIndex = 2;
   template:  EmbeddedViewRef<void>;
   gridOptions: any = {};
+  subject: BehaviorSubject<any>;
   @ViewChild('tdTemplate', {read: TemplateRef}) tpl: TemplateRef<any>;
   @ViewChild('haha', {read: ViewContainerRef}) container: ViewContainerRef;
   listOfData = [
@@ -34,6 +36,14 @@ export class AppComponent implements OnInit{
       address: 'Sidney No. 1 Lake Park'
     }
   ];
+  getRow() {
+    this.subject && this.subject.subscribe(data => {
+      console.log(data);
+    })
+  }
+  showRowChange(data: any[]) {
+    console.log(data);
+  }
   constructor() {
   }
   ngOnInit(): void {
@@ -48,7 +58,7 @@ export class AppComponent implements OnInit{
       rowClass: function(data, rowIndex) {
         return rowIndex + '';
       },
-      trackKey: 'key',
+      rowIdentity: (row) => row.key,
       columnDefs: [
         {
           field: 'name',
