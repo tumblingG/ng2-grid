@@ -1,6 +1,21 @@
 <sl-spin>
-
+    <div *ngIf="tableTitle" class="table-title">
+        <ng-container *slStringTemplateOutlet="tableTitle">{{tableTitle}}</ng-container>
+    </div>
+    <div class="table-body">
+        <ng-template [ngTemplateOutlet]="tableInnerTemplate"></ng-template>
+    </div>
+   <ng-template [ngTemplateOutlet]="paginationTemplate"></ng-template>
 </sl-spin>
+
+<!--显示的表格-->
+<ng-template #tableInnerTemplate>
+    <ng-template [ngTemplateOutlet]="fixedHeaderTemplate"></ng-template>
+    <ng-template [ngTemplateOutlet]="tableBodyTemplate"></ng-template>
+    <div *ngIf="data.length === 0 && !loading">
+        <div>暂时没有数据</div>
+    </div>
+</ng-template>
 <!--分页信息-->
 <ng-template #paginationTemplate>
     <sl-pagination *ngIf="enablePagination && total"
@@ -53,12 +68,20 @@
 
 <!--滚动表格-->
 <ng-template #scrollViewTpl>
-    <cdk-virtual-scroll-viewport>
+    <cdk-virtual-scroll-viewport
+    [itemSize]="virtualItemSize"
+    [minBufferPx]="virtualMinBufferPx"
+    [maxBufferPx]="virtualMaxBufferPx"
+    [style.height]="Scroll.y">
         <table [style.width]="Scroll.x">
             <ng-template [ngTemplateOutlet]="headerTemplate"></ng-template>
             <tbody>
-
+                <ng-container *cdkVirtualFor="let item of data; let i = index">
+                    <ng-template [ngTemplateOutlet]="virtualScrollDirective?.templateRef"
+                    [ngTemplateOutletContext]="{$implicit: item, index: i}"></ng-template>
+                </ng-container>
             </tbody>
         </table>
     </cdk-virtual-scroll-viewport>
 </ng-template>
+
