@@ -51,6 +51,7 @@
     </cdk-virtual-scroll-viewport>
   </ng-template>
   <div class="sl-table-placeholder" *ngIf="data.length === 0 && !slLoading && !slTemplateMode">
+    <div>暂时没有数据</div>
     <!--<nz-embed-empty [nzComponentName]="'table'" [specificContent]="slNoResult"></nz-embed-empty>-->
   </div>
   <div class="sl-table-footer" *ngIf="slFooter">

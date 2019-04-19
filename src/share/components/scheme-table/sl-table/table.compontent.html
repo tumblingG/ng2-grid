@@ -1,0 +1,64 @@
+<sl-spin>
+
+</sl-spin>
+<!--分页信息-->
+<ng-template #paginationTemplate>
+    <sl-pagination *ngIf="enablePagination && total"
+    [hideOnSinglePage]="hideOnSinglePage"
+    [showTotal]="showTotal"
+    [pageIndex]="pageIndex"
+    [pageSize]="pageSize"
+    [total="total"
+    (paginationChange)="paginationChange($event)">
+    </sl-pagination>
+</ng-template>
+
+<!--设置列宽的colgroup-->
+<ng-template #colGroupTemplate>
+    <colgroup>
+        <col *ngFor="let th of listOfThComponent"
+        [style.width]="th.width" [style.minWidth]="th.width">
+    </colgroup>
+</ng-template>
+
+<!--普通的表头，有y轴滚动就不显示-->
+<ng-template #headerTemplate>
+    <ng-template [ngTemplateOutlet]="colGroupTemplate"></ng-template>
+    <thead *ngIf="!Scroll.y">
+        <ng-template [ngTemplateOutlet]="theadComponent?.templateRef"></ng-template>
+    </thead>
+</ng-template>
+
+<!--固定表头-->
+<ng-template #fixedHeaderTemplate>
+    <div *ngIf="Scroll.x || Scroll.y">
+        <table [style.width]="Scroll.x">
+            <ng-template [ngTemplateOutlet]="colGroupTemplate"></ng-template>
+            <thead *ngIf="Scroll.y">
+                <ng-template [ngTemplateOutlet]="theadComponent?.templateRef"></ng-template>
+            </thead>
+        </table>
+    </div>
+</ng-template>
+
+<!--表体-->
+<ng-template #tableBodyTemplate>
+    <div *ngIf="!virtrualScroll; else scrollViewTpl">
+        <table [style.width]="Scroll.x">
+            <ng-template [ngIf]="!virtualScroll" [ngTemplateOutlet]="headerTemplate"></ng-template>
+            <ng-content></ng-content>
+        </table>
+    </div>
+</ng-template>
+
+<!--滚动表格-->
+<ng-template #scrollViewTpl>
+    <cdk-virtual-scroll-viewport>
+        <table [style.width]="Scroll.x">
+            <ng-template [ngTemplateOutlet]="headerTemplate"></ng-template>
+            <tbody>
+
+            </tbody>
+        </table>
+    </cdk-virtual-scroll-viewport>
+</ng-template>
