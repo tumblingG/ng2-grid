@@ -26,34 +26,33 @@ export class ZcPaginationComponent implements OnChanges {
 
   firstIndex = 1;
   pages: number[] = [];
-  @Output() readonly zcPageSizeChange: EventEmitter<number> = new EventEmitter();
-  @Output() readonly zcPageIndexChange: EventEmitter<number> = new EventEmitter();
+  @Output() readonly paginationChange: EventEmitter<{pageIndex: number, pageSize: number}> = new EventEmitter();
   @Input() zcShowTotal: TemplateRef<{ $implicit: number; range: [number, number] }>;
   @Input() zcSize: 'default' | 'small' = 'default';
   @Input() @ViewChild('renderItemTemplate') zcItemRender: TemplateRef<{
     $implicit: 'page' | 'prev' | 'next';
     page: number
   }>;
-  @Input() @InputBoolean() zcHideOnSinglePage = false;
-  @Input() @InputNumber() zcTotal = 0;
-  @Input() @InputNumber() zcPageSize = 10;
-  @Input() @InputNumber() zcPageIndex = 1;
+  @Input() @InputBoolean() hideOnSinglePage = false;
+  @Input() @InputNumber() total = 0;
+  @Input() @InputNumber() pageSize = 10;
+  @Input() @InputNumber() pageIndex = 1;
 
   get lastIndex(): number {
-    return Math.ceil(this.zcTotal / this.zcPageSize);
+    return Math.ceil(this.total / this.pageSize);
   }
 
   get isLastIndex(): boolean {
-    return this.zcPageIndex === this.lastIndex;
+    return this.pageIndex === this.lastIndex;
   }
 
   get isFirstIndex(): boolean {
-    return this.zcPageIndex === this.firstIndex;
+    return this.pageIndex === this.firstIndex;
   }
 
   get ranges(): number[] {
-    return [(this.zcPageIndex -1) * this.zcPageSize, Math.min(this.zcPageIndex *
-    this.zcPageSize, this.zcTotal)];
+    return [(this.pageIndex -1) * this.pageSize, Math.min(this.pageIndex *
+    this.pageSize, this.total)];
   }
 
   buildIndexes(): void {
@@ -63,7 +62,7 @@ export class ZcPaginationComponent implements OnChanges {
         pages.push(i);
       }
     } else {
-      const current = +this.zcPageIndex;
+      const current = +this.pageIndex;
       let left = Math.max(2, current - 2);
       let right = Math.min(current + 2, this.lastIndex - 1);
       if (current -1 <= 2) {
@@ -91,8 +90,11 @@ export class ZcPaginationComponent implements OnChanges {
   }
 
   updatePageIndexValue(page: number): void {
-    this.zcPageIndex = page;
-    this.zcPageIndexChange.emit(this.zcPageIndex);
+    this.pageIndex = page;
+    this.paginationChange.emit({
+      pageIndex: this.pageIndex,
+      pageSize: this.pageSize
+    });
     this.buildIndexes();
   }
 
@@ -101,23 +103,23 @@ export class ZcPaginationComponent implements OnChanges {
   }
 
   jumpPage(index: number): void {
-    if (index !== this.zcPageIndex) {
+    if (index !== this.pageIndex) {
       const pageIndex = this.validatePageIndex(index);
-      if (pageIndex !== this.zcPageIndex) {
+      if (pageIndex !== this.pageIndex) {
         this.updatePageIndexValue(pageIndex);
       }
     }
   }
 
   jumpDiff(diff: number): void {
-    this.jumpPage(this.zcPageIndex + diff);
+    this.jumpPage(this.pageIndex + diff);
   }
 
   constructor(private cdr: ChangeDetectorRef) { }
 
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes.zcTotal || changes.zcPageSize || changes.zcPageIndex) {
+    if (changes.total || changes.pageSize || changes.pageIndex) {
       this.buildIndexes();
     }
   }

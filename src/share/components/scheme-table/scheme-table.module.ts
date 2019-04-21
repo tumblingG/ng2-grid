@@ -10,12 +10,14 @@ import { TrDirective } from './tr.directive';
 import { TbodyDirective } from './tbody.directive';
 import { SlThComponent } from './sl-th/sl-th.component';
 import { SlTableComponent } from './sl-table/sl-table.component';
+import { TableComponent } from './sl-table/table.component';
 import { SlTheadComponent } from './sl-thead/sl-thead.component';
 import { SlVirtualScrollDirective } from './sl-virtual-scroll.directive';
 import { SchemeTableComponent } from './scheme-table/scheme-table.component';
 
 @NgModule({
-  declarations: [SlTdComponent, TrDirective, TbodyDirective, SlThComponent, SlTableComponent, SlTheadComponent, SlVirtualScrollDirective, SchemeTableComponent],
+  declarations: [SlTdComponent, TrDirective, TbodyDirective, SlThComponent, SlTableComponent, SlTheadComponent, SlVirtualScrollDirective, SchemeTableComponent,
+    TableComponent],
   imports: [
     CommonModule,
     FormsModule,

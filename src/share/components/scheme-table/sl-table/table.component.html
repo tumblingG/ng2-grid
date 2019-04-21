@@ -23,8 +23,8 @@
     [showTotal]="showTotal"
     [pageIndex]="pageIndex"
     [pageSize]="pageSize"
-    [total="total"
-    (paginationChange)="paginationChange($event)">
+    [total]="total"
+    (paginationChange)="paginationChange.emit($event)">
     </sl-pagination>
 </ng-template>
 

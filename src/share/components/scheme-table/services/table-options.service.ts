@@ -3,7 +3,7 @@ import {TableUtilService} from "./table-util.service";
 
 @Injectable()
 export class TableOptionsService {
-  _options: {[index: string]: any};
+  private _options: {[index: string]: any};
   get options() {
     if (!this._options) throw new Error('Must initialize TableOptionsService');
     return this._options;
