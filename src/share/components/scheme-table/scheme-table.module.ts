@@ -16,7 +16,7 @@ import { SlVirtualScrollDirective } from './sl-virtual-scroll.directive';
 import { SchemeTableComponent } from './scheme-table/scheme-table.component';
 
 @NgModule({
-  declarations: [SlTdComponent, TrDirective, TbodyDirective, SlThComponent, SlTableComponent, SlTheadComponent, SlVirtualScrollDirective, SchemeTableComponent,
+  declarations: [SlTdComponent, TrDirective, TbodyDirective, SlThComponent, SlTheadComponent, SlVirtualScrollDirective, SchemeTableComponent,
     TableComponent],
   imports: [
     CommonModule,

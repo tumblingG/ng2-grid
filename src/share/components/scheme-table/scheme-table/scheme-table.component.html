@@ -1,7 +1,7 @@
-<sl-table #tableInstance  [slData]="data"
-  (slCurrentPageDataChange)="currentPageDataChange($event)"
-  (slPageIndexChange)="paginationChange.emit($event)">
-  <thead>
+<zc-table #tableInstance  [data]="data" [total]="data.length"
+  (currentPageDataChange)="currentPageDataChange($event)"
+  (paginationChange)="paginationChange.emit($event)">
+  <sl-thead>
   <tr>
    <th slShowCheckbox *ngIf="config.enableRowHeaderSelection"
    [style.width]="config.selectionRowHeaderWidth"
@@ -13,24 +13,31 @@
         {{column.displayName}}
     </th>
   </tr>
-  </thead>
+  </sl-thead>
   <tbody>
-  <tr *ngFor="let data of tableInstance.data; let rowIndex = index; trackBy: trackByHashKey"
-  [ngClass]="isFunction(config.rowClass) && config.rowClass(data, rowIndex)">
-    <td slSHowCheckbox *ngIf="config.enableRowSelection"
-        [(slChecked)]="mapOfCheckedHashKey[data['$$hashKey']]"
-        (slCheckedChange)="singleCheck($event, data)"
-    ></td>
-    <td *ngFor="let column of config?.columnDefs; let colIndex=index"
-        [ngClass]="isFunction(column.cellClass) && column.cellClass(data, rowIndex, colIndex)">
-        <ng-container *ngIf="column.cellTemplate;else commonTd">
-            <ng-template [ngTemplateOutlet]="column.cellTemplate"
-                         [ngTemplateOutletContext]="{$implicit: data}"></ng-template>
-        </ng-container>
-        <ng-template #commonTd>{{data[column.field]}}</ng-template>
-    </td>
-  </tr>
+  <!--<tr *ngFor="let data of tableInstance.displayData; let rowIndex = index; trackBy: trackByHashKey"-->
+  <!--[ngClass]="isFunction(config.rowClass) && config.rowClass(data, rowIndex)">-->
+    <!--<td slSHowCheckbox *ngIf="config.enableRowSelection"-->
+        <!--[(slChecked)]="mapOfCheckedHashKey[data['$$hashKey']]"-->
+        <!--(slCheckedChange)="singleCheck($event, data)"-->
+    <!--&gt;</td>-->
+    <!--<td *ngFor="let column of config?.columnDefs; let colIndex=index"-->
+        <!--[ngClass]="isFunction(column.cellClass) && column.cellClass(data, rowIndex, colIndex)">-->
+        <!--<ng-container *ngIf="column.cellTemplate;else commonTd">-->
+            <!--<ng-template [ngTemplateOutlet]="column.cellTemplate"-->
+                         <!--[ngTemplateOutletContext]="{$implicit: data}"></ng-template>-->
+        <!--</ng-container>-->
+        <!--<ng-template #commonTd>{{data[column.field]}}</ng-template>-->
+    <!--</td>-->
+  <!--</tr>-->
+  <ng-template sl-virtual-scroll let-data let-index="index">
+      <tr>
+          <td>{{data.name}}</td>
+          <td>{{data.age}}</td>
+          <td>{{data.address}}</td>
+      </tr>
+  </ng-template>
   </tbody>
-</sl-table>
+</zc-table>
 
 

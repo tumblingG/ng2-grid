@@ -1,15 +1,16 @@
-<scheme-table [options]="gridOptions" [data]="listOfData" (selectRowsChange)="showRowChange($event)"></scheme-table>
+<scheme-table [options]="gridOptions" [data]="listOfData" (selectRowsChange)="showRowChange($event)"
+(displayDataChange)="disPlayDataChange($event)"></scheme-table>
 
 <hr>
 <button type="button" (click)="getRow()">gggg</button>
 <sl-spin></sl-spin>
 <hr>
-<zc-pagination
-        [zcTotal]="total"
-        [zcPageSize]="pageSize"
-        [(zcPageIndex)]="pageIndex"
-        (zcPageIndexChange)="modeChange($event)">
-</zc-pagination>
+<!--<zc-pagination-->
+        <!--[zcTotal]="total"-->
+        <!--[zcPageSize]="pageSize"-->
+        <!--[(zcPageIndex)]="pageIndex"-->
+        <!--(zcPageIndexChange)="modeChange($event)">-->
+<!--</zc-pagination>-->
 
 <button (click)="addTotal()">addTotal</button>
 <button (click)="addIndex()">addIndex</button>

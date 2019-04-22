@@ -27,7 +27,7 @@ export class ZcPaginationComponent implements OnChanges {
   firstIndex = 1;
   pages: number[] = [];
   @Output() readonly paginationChange: EventEmitter<{pageIndex: number, pageSize: number}> = new EventEmitter();
-  @Input() zcShowTotal: TemplateRef<{ $implicit: number; range: [number, number] }>;
+  @Input() showTotal: TemplateRef<{ $implicit: number; range: [number, number] }>;
   @Input() zcSize: 'default' | 'small' = 'default';
   @Input() @ViewChild('renderItemTemplate') zcItemRender: TemplateRef<{
     $implicit: 'page' | 'prev' | 'next';

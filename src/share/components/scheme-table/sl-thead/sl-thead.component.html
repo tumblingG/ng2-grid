@@ -1,6 +1,6 @@
 <ng-template #contentTemplate>
   <ng-content></ng-content>
 </ng-template>
-<ng-container *ngIf="!slTableComponent">
+<ng-container *ngIf="!tableComponent">
   <ng-template [ngTemplateOutlet]="contentTemplate"></ng-template>
 </ng-container>

@@ -12,7 +12,7 @@
 <ng-template #tableInnerTemplate>
     <ng-template [ngTemplateOutlet]="fixedHeaderTemplate"></ng-template>
     <ng-template [ngTemplateOutlet]="tableBodyTemplate"></ng-template>
-    <div *ngIf="data.length === 0 && !loading">
+    <div *ngIf="displayData.length === 0 && !loading">
         <div>暂时没有数据</div>
     </div>
 </ng-template>
@@ -24,7 +24,7 @@
     [pageIndex]="pageIndex"
     [pageSize]="pageSize"
     [total]="total"
-    (paginationChange)="paginationChange.emit($event)">
+    (paginationChange)="pageSizeOrIndexChange($event)">
     </sl-pagination>
 </ng-template>
 
@@ -46,7 +46,7 @@
 
 <!--固定表头-->
 <ng-template #fixedHeaderTemplate>
-    <div *ngIf="Scroll.x || Scroll.y">
+    <div *ngIf="Scroll.x || Scroll.y" class="fixed">
         <table [style.width]="Scroll.x">
             <ng-template [ngTemplateOutlet]="colGroupTemplate"></ng-template>
             <thead *ngIf="Scroll.y">
@@ -58,7 +58,7 @@
 
 <!--表体-->
 <ng-template #tableBodyTemplate>
-    <div *ngIf="!virtrualScroll; else scrollViewTpl">
+    <div *ngIf="!virtualScroll; else scrollViewTpl">
         <table [style.width]="Scroll.x">
             <ng-template [ngIf]="!virtualScroll" [ngTemplateOutlet]="headerTemplate"></ng-template>
             <ng-content></ng-content>

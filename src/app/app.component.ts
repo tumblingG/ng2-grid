@@ -16,33 +16,14 @@ export class AppComponent implements OnInit{
   subject: BehaviorSubject<any>;
   @ViewChild('tdTemplate', {read: TemplateRef}) tpl: TemplateRef<any>;
   @ViewChild('haha', {read: ViewContainerRef}) container: ViewContainerRef;
-  listOfData = [
-    {
-      key: '1',
-      name: 'John Brown',
-      age: 32,
-      address: 'New York No. 1 Lake Park'
-    },
-    {
-      key: '2',
-      name: 'Jim Green',
-      age: 42,
-      address: 'London No. 1 Lake Park'
-    },
-    {
-      key: '3',
-      name: 'Joe Black',
-      age: 32,
-      address: 'Sidney No. 1 Lake Park'
-    }
-  ];
+  listOfData = [];
   getRow() {
     this.subject && this.subject.subscribe(data => {
       console.log(data);
     })
   }
   showRowChange(data: any[]) {
-    console.log(data);
+    console.log('行数据',data);
   }
   constructor() {
   }
@@ -50,11 +31,25 @@ export class AppComponent implements OnInit{
     this.template = this.tpl.createEmbeddedView({$implicit: {id:2}});
     console.log(this.template);
     this.container.insert(this.template);
+    for(let i = 0; i < 100; i++) {
+      this.listOfData.push({
+        key: i + '',
+        name: 'Jim Green' + i,
+        age: 42,
+        address: 'London No. 1 Lake Park' + i
+      });
+    }
     // this.container.createEmbeddedView(this.tdTemplate);
     this.gridOptions = {
+      tableTitle: '第一个表格',
       enableRowSelection: true,
       enableRowHeaderSelection: true,
       selectionRowHeaderWidth: '10%',
+      enablePagination: true,
+      pageSize: 10,
+      virtualScroll: true,
+      virtualItemSize: 20,
+      Scroll: {x: '400px', y: '200px'},
       rowClass: function(data, rowIndex) {
         return rowIndex + '';
       },
@@ -94,6 +89,10 @@ export class AppComponent implements OnInit{
   }
   modeChange($event: number) {
     console.log(`ni ${$event}`);
+  }
+
+  disPlayDataChange($event) {
+    console.log('displayData', $event);
   }
 
   console(data) {
