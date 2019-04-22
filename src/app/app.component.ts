@@ -1,4 +1,4 @@
-import { Component, TemplateRef, ViewChild, OnInit, EmbeddedViewRef, ViewContainerRef } from '@angular/core';
+import { Component, TemplateRef, ViewChild, OnInit, EmbeddedViewRef, ViewContainerRef, ElementRef, AfterViewInit } from '@angular/core';
 import {BehaviorSubject} from 'rxjs'
 
 @Component({
@@ -6,7 +6,7 @@ import {BehaviorSubject} from 'rxjs'
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.less']
 })
-export class AppComponent implements OnInit{
+export class AppComponent implements OnInit, AfterViewInit{
   title = 'ng2-table';
   total = 200;
   pageSize = 10;
@@ -16,6 +16,7 @@ export class AppComponent implements OnInit{
   subject: BehaviorSubject<any>;
   @ViewChild('tdTemplate', {read: TemplateRef}) tpl: TemplateRef<any>;
   @ViewChild('haha', {read: ViewContainerRef}) container: ViewContainerRef;
+  @ViewChild('head', {read: ElementRef}) header : ElementRef;
   listOfData = [];
   getRow() {
     this.subject && this.subject.subscribe(data => {
@@ -27,7 +28,12 @@ export class AppComponent implements OnInit{
   }
   constructor() {
   }
+  ngAfterViewInit(): void {
+    console.log('header', this.header);
+  }
+
   ngOnInit(): void {
+
     this.template = this.tpl.createEmbeddedView({$implicit: {id:2}});
     console.log(this.template);
     this.container.insert(this.template);

@@ -1,5 +1,8 @@
-<scheme-table [options]="gridOptions" [data]="listOfData" (selectRowsChange)="showRowChange($event)"
-(displayDataChange)="disPlayDataChange($event)"></scheme-table>
+<div [style.width]="'200px'">
+    <scheme-table [options]="gridOptions" [data]="listOfData" (selectRowsChange)="showRowChange($event)"
+                  (displayDataChange)="disPlayDataChange($event)"></scheme-table>
+</div>
+
 
 <hr>
 <button type="button" (click)="getRow()">gggg</button>
@@ -23,4 +26,9 @@
     <a>user</a> |
     <a>delete</a>
 </ng-template>
+<div #head>kkkkk</div>
+<ng-template #headerTemplate>
+    <div>dd</div>
+</ng-template>
+<ng-template [ngTemplateOutlet]="headerTemplate"></ng-template>
 

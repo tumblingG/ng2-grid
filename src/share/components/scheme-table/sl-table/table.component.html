@@ -1,11 +1,13 @@
 <sl-spin>
-    <div *ngIf="tableTitle" class="table-title">
-        <ng-container *slStringTemplateOutlet="tableTitle">{{tableTitle}}</ng-container>
+    <div #tableMainElement class="ant-table">
+        <div *ngIf="tableTitle" class="table-title">
+            <ng-container *slStringTemplateOutlet="tableTitle">{{tableTitle}}</ng-container>
+        </div>
+        <div class="table-body">
+            <ng-template [ngTemplateOutlet]="tableInnerTemplate"></ng-template>
+        </div>
+       <ng-template [ngTemplateOutlet]="paginationTemplate"></ng-template>
     </div>
-    <div class="table-body">
-        <ng-template [ngTemplateOutlet]="tableInnerTemplate"></ng-template>
-    </div>
-   <ng-template [ngTemplateOutlet]="paginationTemplate"></ng-template>
 </sl-spin>
 
 <!--显示的表格-->
@@ -46,7 +48,8 @@
 
 <!--固定表头-->
 <ng-template #fixedHeaderTemplate>
-    <div *ngIf="Scroll.x || Scroll.y" class="fixed">
+    <div #fixedHeaderElement  *ngIf="Scroll.x || Scroll.y" class="fixed" [style.overflow]="'hidden'"
+    [ngStyle]="headerBottomStyle">
         <table [style.width]="Scroll.x">
             <ng-template [ngTemplateOutlet]="colGroupTemplate"></ng-template>
             <thead *ngIf="Scroll.y">
@@ -58,7 +61,7 @@
 
 <!--表体-->
 <ng-template #tableBodyTemplate>
-    <div *ngIf="!virtualScroll; else scrollViewTpl">
+    <div #tableBodyElement  *ngIf="!virtualScroll; else scrollViewTpl">
         <table [style.width]="Scroll.x">
             <ng-template [ngIf]="!virtualScroll" [ngTemplateOutlet]="headerTemplate"></ng-template>
             <ng-content></ng-content>

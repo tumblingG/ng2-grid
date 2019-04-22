@@ -14,7 +14,7 @@ import {TableComponent} from "../sl-table/table.component";
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SlTheadComponent implements OnInit, AfterViewInit {
+export class SlTheadComponent implements OnInit {
   @ViewChild('contentTemplate') templateRef: TemplateRef<void>;
   @ContentChildren(SlThComponent, {descendants: true}) listOfNzThComponent: QueryList<SlThComponent>;
   constructor(

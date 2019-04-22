@@ -16,7 +16,7 @@ import {SlTheadComponent} from "../sl-thead/sl-thead.component";
 import {SlThComponent} from "../sl-th/sl-th.component";
 import {SlVirtualScrollDirective} from "../sl-virtual-scroll.directive";
 import {InputBoolean, InputNumber} from "../../../util/covert";
-import {SlMeasureScrollbarService} from "../../../services/sl-measure-scrollbar.service";
+import {SlMeasureScrollbarService} from "../services/sl-measure-scrollbar.service";
 import {Subject, merge} from 'rxjs';
 import { flatMap, startWith, takeUntil } from 'rxjs/operators';
 

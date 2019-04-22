@@ -1,6 +1,6 @@
 import { Injectable, Inject } from '@angular/core';
-import {IndexableObject} from "../types/indexable";
-import {isNotNil} from "../util/check";
+import {IndexableObject} from "../../../types/indexable";
+import {isNotNil} from "../../../util/check";
 import {DOCUMENT} from '@angular/common';
 
 @Injectable({
